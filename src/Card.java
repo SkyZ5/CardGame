@@ -37,6 +37,8 @@ public class Card {
         return suit;
     }
 
+    public boolean isShow(){return show;}
+
     public void setRectangleLocation(int x, int y) {
         cardBox.setLocation(x, y);
     }
@@ -54,7 +56,7 @@ public class Card {
     }
 
     public void flipCard() {
-        show = !show;
+        show = false;
         this.image = readImage();
     }
 
