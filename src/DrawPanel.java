@@ -45,11 +45,19 @@ class DrawPanel extends JPanel implements MouseListener {
             x = 125;
             y += hand.get(i).getImage().getHeight() + 10;
         }
+        boolean canContinue = canContinue();
+        if(!canContinue){
+            message = "NO MORE MOVES";
+        }
+        else{
+            message = "";
+        }
         // Drawing the bottom button
         g.setFont(new Font("Courier New", Font.BOLD, 20));
         g.drawString("REPLACE CARDS", 150, 300);
         g.drawString(" PLAY AGAIN", 150, 350);
         g.drawString(message, 10, 400);
+        cardsRemaining = deck.size();
         g.drawString("CARDS REMAINING: " + cardsRemaining, 10, 450);
         g.drawRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight());
         g.drawRect((int)replaceButton.getX(),(int)replaceButton.getY(), (int)replaceButton.getWidth(), (int)replaceButton.getHeight());
@@ -164,7 +172,6 @@ class DrawPanel extends JPanel implements MouseListener {
                 else{
                     message = "THAT DOESN'T WORK";
                 }
-                cardsRemaining = deck.size();
             }
         }
 
@@ -175,4 +182,63 @@ class DrawPanel extends JPanel implements MouseListener {
     public void mouseEntered(MouseEvent e) { }
     public void mouseExited(MouseEvent e) { }
     public void mouseClicked(MouseEvent e) { }
+    public boolean canContinue(){
+        boolean canContinue = false;
+        boolean containsJack = false;
+        boolean containsQueen = false;
+        boolean containsKing = false;
+        for(Card card : hand){
+            if(card.getValue().equals("J")){
+                containsJack = true;
+            }
+            else if(card.getValue().equals("Q")){
+                containsQueen = true;
+            }
+            else if(card.getValue().equals("K")){
+                containsKing = true;
+            }
+        }
+        if(containsJack && containsKing && containsQueen){
+            canContinue = true;
+        }
+        for(Card card : hand){
+            int cardValue = getCardValue(card);
+            for(Card card1 : hand) {
+                if(card1 != card) {
+                    int cardValue1 = getCardValue(card1);
+                    if(cardValue1 + cardValue == 11){
+                        canContinue = true;
+                    }
+                }
+            }
+        }
+
+        return canContinue;
+    }
+
+    private static int getCardValue(Card card) {
+        int cardValue = 0;
+        if (card.getValue().equals("A")) {
+            cardValue += 1;
+        } else if (card.getValue().equals("02")) {
+            cardValue += 2;
+        } else if (card.getValue().equals("03")) {
+            cardValue += 3;
+        } else if (card.getValue().equals("04")) {
+            cardValue += 4;
+        } else if (card.getValue().equals("05")) {
+            cardValue += 5;
+        } else if (card.getValue().equals("06")) {
+            cardValue += 6;
+        } else if (card.getValue().equals("07")) {
+            cardValue += 7;
+        } else if (card.getValue().equals("08")) {
+            cardValue += 8;
+        } else if (card.getValue().equals("09")) {
+            cardValue += 9;
+        } else if (card.getValue().equals("10")) {
+            cardValue += 10;
+        }
+        return cardValue;
+    }
 }
