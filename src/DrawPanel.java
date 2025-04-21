@@ -213,6 +213,18 @@ class DrawPanel extends JPanel implements MouseListener {
             }
         }
 
+        for(Card card : hand){
+            for(Card card1 : hand){
+                if(card1 != card){
+                    int cardValue = getCardValue(card);
+                    int card1Value = getCardValue(card1);
+                    if(cardValue + card1Value == 11){
+                        canContinue = true;
+                    }
+                }
+            }
+        }
+
         return canContinue;
     }
 
